@@ -1,0 +1,2 @@
+# Load Sysbuild board Kconfig descriptions.
+osource "C:/Projects/Github/LoRa_Radio/external/zephyr/boards/nordic/nrf5340dk/Kconfig.sysbuild"
