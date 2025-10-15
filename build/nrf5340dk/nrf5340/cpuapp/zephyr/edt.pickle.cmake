@@ -425,6 +425,7 @@ set_target_properties(${DEVICETREE_TARGET} PROPERTIES "DT_PROP|/soc/peripheral@5
 set_target_properties(${DEVICETREE_TARGET} PROPERTIES "DT_PROP|/soc/peripheral@50000000/spi@a000/sx1262@0|spi-cpol" "False")
 set_target_properties(${DEVICETREE_TARGET} PROPERTIES "DT_PROP|/soc/peripheral@50000000/spi@a000/sx1262@0|spi-cpha" "False")
 set_target_properties(${DEVICETREE_TARGET} PROPERTIES "DT_PROP|/soc/peripheral@50000000/spi@a000/sx1262@0|spi-hold-cs" "False")
+set_target_properties(${DEVICETREE_TARGET} PROPERTIES "DT_PROP|/soc/peripheral@50000000/spi@a000/sx1262@0|status" "okay")
 set_target_properties(${DEVICETREE_TARGET} PROPERTIES "DT_PROP|/soc/peripheral@50000000/spi@a000/sx1262@0|compatible" "semtech,sx1262;")
 set_target_properties(${DEVICETREE_TARGET} PROPERTIES "DT_PROP|/soc/peripheral@50000000/spi@a000/sx1262@0|zephyr,deferred-init" "False")
 set_target_properties(${DEVICETREE_TARGET} PROPERTIES "DT_PROP|/soc/peripheral@50000000/spi@a000/sx1262@0|wakeup-source" "False")

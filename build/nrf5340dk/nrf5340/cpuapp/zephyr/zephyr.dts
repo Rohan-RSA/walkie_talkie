@@ -43,7 +43,7 @@
 		mcuboot-led0 = &led0;       /* in external\zephyr\boards\nordic\nrf5340dk\nrf5340dk_common.dtsi:101 */
 		pwm-led0 = &pwm_led0;       /* in external\zephyr\boards\nordic\nrf5340dk\nrf5340_cpuapp_common.dtsi:53 */
 		watchdog0 = &wdt0;          /* in external\zephyr\boards\nordic\nrf5340dk\nrf5340_cpuapp_common.dtsi:54 */
-		lora0 = &lora0;             /* in walkie_talkie\boards\nrf5340dk.overlay:34 */
+		lora0 = &lora0;             /* in walkie_talkie\boards\nrf5340dk.overlay:35 */
 	};
 
 	/* node '/soc' defined in external\zephyr\dts\arm\armv8-m.dtsi:6 */
@@ -260,7 +260,7 @@
 				pinctrl-1 = < &uart0_sleep >;    /* in external\zephyr\boards\nordic\nrf5340dk\nrf5340_cpuapp_common.dtsi:107 */
 				pinctrl-names = "default",
 				                "sleep";         /* in external\zephyr\boards\nordic\nrf5340dk\nrf5340_cpuapp_common.dtsi:108 */
-				current-speed = < 0xe1000 >;     /* in walkie_talkie\boards\nrf5340dk.overlay:29 */
+				current-speed = < 0xe1000 >;     /* in walkie_talkie\boards\nrf5340dk.overlay:30 */
 			};
 
 			/* node '/soc/peripheral@50000000/i2c@9000' defined in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:149 */
@@ -333,6 +333,7 @@
 					dio2-tx-enable;                        /* in walkie_talkie\boards\nrf5340dk.overlay:22 */
 					dio3-tcxo-voltage = < 0x7 >;           /* in walkie_talkie\boards\nrf5340dk.overlay:23 */
 					tcxo-power-startup-delay-ms = < 0x5 >; /* in walkie_talkie\boards\nrf5340dk.overlay:24 */
+					status = "okay";                       /* in walkie_talkie\boards\nrf5340dk.overlay:25 */
 				};
 			};
 

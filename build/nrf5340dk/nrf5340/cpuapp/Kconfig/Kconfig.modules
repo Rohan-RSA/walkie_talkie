@@ -25,6 +25,12 @@ endmenu
 config ZEPHYR_XTENSA_MODULE
 	bool
 	default y
+menu "loramac-node (C:/Projects/Github/LoRa_Radio/external/modules/lib/loramac-node)"
+osource "$(ZEPHYR_LORAMAC_NODE_KCONFIG)"
+config ZEPHYR_LORAMAC_NODE_MODULE
+	bool
+	default y
+endmenu
 menu "picolibc (C:/Projects/Github/LoRa_Radio/external/modules/lib/picolibc)"
 osource "C:/Projects/Github/LoRa_Radio/external/modules/lib/picolibc/zephyr/Kconfig"
 config ZEPHYR_PICOLIBC_MODULE

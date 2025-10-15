@@ -11,6 +11,7 @@
 #include <zephyr/kernel.h>
 
 #define DEFAULT_RADIO_NODE DT_ALIAS(lora0)
+// #define DEFAULT_RADIO_NODE DT_NODELABEL(sx1262)
 BUILD_ASSERT(DT_NODE_HAS_STATUS_OKAY(DEFAULT_RADIO_NODE),
 	     "No default LoRa radio specified in DT");
 

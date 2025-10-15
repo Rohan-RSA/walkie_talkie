@@ -8,7 +8,7 @@
 	pinctrl-1 = <&spi4_sleep>;
 	pinctrl-names = "default", "sleep";
 	// zephyr,pm-device-runtime-auto;
-	
+	//
 	lora0: sx1262@0 {
 		compatible = "semtech,sx1262";
 		reg = <0>;
@@ -22,6 +22,7 @@
 		dio2-tx-enable;
 		dio3-tcxo-voltage = <7>;
 		tcxo-power-startup-delay-ms = <5>;
+		status = "okay";
 	};
 };
 

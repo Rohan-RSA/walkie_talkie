@@ -2,5 +2,6 @@
 "hal_espressif":"C:/Projects/Github/LoRa_Radio/external/modules/hal/espressif":"C:/Projects/Github/LoRa_Radio/external/modules/hal/espressif/zephyr"
 "hal_nordic":"C:/Projects/Github/LoRa_Radio/external/modules/hal/nordic":"${ZEPHYR_HAL_NORDIC_CMAKE_DIR}"
 "xtensa":"C:/Projects/Github/LoRa_Radio/external/modules/hal/xtensa":"C:/Projects/Github/LoRa_Radio/external/modules/hal/xtensa"
+"loramac-node":"C:/Projects/Github/LoRa_Radio/external/modules/lib/loramac-node":"${ZEPHYR_LORAMAC_NODE_CMAKE_DIR}"
 "picolibc":"C:/Projects/Github/LoRa_Radio/external/modules/lib/picolibc":"C:/Projects/Github/LoRa_Radio/external/modules/lib/picolibc"
 "segger":"C:/Projects/Github/LoRa_Radio/external/modules/debug/segger":"${ZEPHYR_SEGGER_CMAKE_DIR}"

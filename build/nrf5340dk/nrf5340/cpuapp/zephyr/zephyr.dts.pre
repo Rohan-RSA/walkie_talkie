@@ -1469,6 +1469,7 @@ zephyr_udc0: &usbd {
   dio2-tx-enable;
   dio3-tcxo-voltage = <7>;
   tcxo-power-startup-delay-ms = <5>;
+  status = "okay";
  };
 };
 

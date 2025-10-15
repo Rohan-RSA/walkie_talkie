@@ -10,6 +10,9 @@ config ZEPHYR_HAL_NORDIC_MODULE
 config ZEPHYR_XTENSA_MODULE
    bool
    default y
+config ZEPHYR_LORAMAC_NODE_MODULE
+   bool
+   default y
 config ZEPHYR_PICOLIBC_MODULE
    bool
    default y
