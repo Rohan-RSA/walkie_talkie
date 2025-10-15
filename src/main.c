@@ -48,14 +48,16 @@ struct lora_modem_config config;
 void send_button_pressed(const struct device *dev, struct gpio_callback *cb, uint32_t pins)
 {
 	int ret;
-	LOG_INF("Send button pressed at %" PRIu32 "\n", k_cycle_get_32());
+	// LOG_INF("Send button pressed at %" PRIu32 "\n", k_cycle_get_32());
 	ret = lora_send_async(lora_dev, data, MAX_DATA_LEN, NULL);	// No event signalling yet, thus NULL
 	if (ret < 0) {
 		LOG_ERR("LoRa send failed");
 		return 0;
 	}
 
-	LOG_INF("Data sent %c!", data[MAX_DATA_LEN - 1]);
+	gpio_pin_toggle_dt(&send_led);
+
+	// LOG_INF("Data sent %c!", data[MAX_DATA_LEN - 1]);
 }
 
 int main(void)
