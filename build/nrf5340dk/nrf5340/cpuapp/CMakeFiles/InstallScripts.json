@@ -55,6 +55,7 @@
 		"C:/Projects/Github/LoRa_Radio/walkie_talkie/build/nrf5340dk/nrf5340/cpuapp/zephyr/subsys/testsuite/cmake_install.cmake",
 		"C:/Projects/Github/LoRa_Radio/walkie_talkie/build/nrf5340dk/nrf5340/cpuapp/zephyr/subsys/tracing/cmake_install.cmake",
 		"C:/Projects/Github/LoRa_Radio/walkie_talkie/build/nrf5340dk/nrf5340/cpuapp/zephyr/subsys/usb/cmake_install.cmake",
+		"C:/Projects/Github/LoRa_Radio/walkie_talkie/build/nrf5340dk/nrf5340/cpuapp/zephyr/subsys/timing/cmake_install.cmake",
 		"C:/Projects/Github/LoRa_Radio/walkie_talkie/build/nrf5340dk/nrf5340/cpuapp/zephyr/drivers/cmake_install.cmake",
 		"C:/Projects/Github/LoRa_Radio/walkie_talkie/build/nrf5340dk/nrf5340/cpuapp/zephyr/drivers/disk/cmake_install.cmake",
 		"C:/Projects/Github/LoRa_Radio/walkie_talkie/build/nrf5340dk/nrf5340/cpuapp/zephyr/drivers/firmware/cmake_install.cmake",

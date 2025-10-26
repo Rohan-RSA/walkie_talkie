@@ -150,6 +150,9 @@ C:/Projects/Github/LoRa_Radio/walkie_talkie/build/nrf5340dk/nrf5340/cpuapp/zephy
 C:/Projects/Github/LoRa_Radio/walkie_talkie/build/nrf5340dk/nrf5340/cpuapp/zephyr/subsys/tracing/CMakeFiles/rebuild_cache.dir
 C:/Projects/Github/LoRa_Radio/walkie_talkie/build/nrf5340dk/nrf5340/cpuapp/zephyr/subsys/usb/CMakeFiles/edit_cache.dir
 C:/Projects/Github/LoRa_Radio/walkie_talkie/build/nrf5340dk/nrf5340/cpuapp/zephyr/subsys/usb/CMakeFiles/rebuild_cache.dir
+C:/Projects/Github/LoRa_Radio/walkie_talkie/build/nrf5340dk/nrf5340/cpuapp/zephyr/subsys/timing/CMakeFiles/subsys__timing.dir
+C:/Projects/Github/LoRa_Radio/walkie_talkie/build/nrf5340dk/nrf5340/cpuapp/zephyr/subsys/timing/CMakeFiles/edit_cache.dir
+C:/Projects/Github/LoRa_Radio/walkie_talkie/build/nrf5340dk/nrf5340/cpuapp/zephyr/subsys/timing/CMakeFiles/rebuild_cache.dir
 C:/Projects/Github/LoRa_Radio/walkie_talkie/build/nrf5340dk/nrf5340/cpuapp/zephyr/drivers/CMakeFiles/edit_cache.dir
 C:/Projects/Github/LoRa_Radio/walkie_talkie/build/nrf5340dk/nrf5340/cpuapp/zephyr/drivers/CMakeFiles/rebuild_cache.dir
 C:/Projects/Github/LoRa_Radio/walkie_talkie/build/nrf5340dk/nrf5340/cpuapp/zephyr/drivers/disk/CMakeFiles/edit_cache.dir
