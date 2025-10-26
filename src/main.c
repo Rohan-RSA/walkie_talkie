@@ -25,12 +25,16 @@ BUILD_ASSERT(DT_NODE_HAS_STATUS_OKAY(DEFAULT_RADIO_NODE),
 /*
  * Get button configuration from the devicetree sw0 alias. This is mandatory.
  */
-#define SW0_NODE	DT_ALIAS(sw1)
+#define SW0_NODE	DT_ALIAS(sw0)
 #if !DT_NODE_HAS_STATUS_OKAY(SW0_NODE)
 #error "Unsupported board: sw0 devicetree alias is not defined"
 #endif
 
-#define SLEEP_TIME_MS 1
+#define SLEEP_TIME_MS 100
+/* size of stack area used by each thread */
+#define STACKSIZE 4096
+/* scheduling priority used by each thread */
+#define PRIORITY 7
 
 static struct gpio_callback send_button_cb_data;
 
@@ -43,41 +47,58 @@ char data[MAX_DATA_LEN] = {'h', 'e', 'l', 'l', 'o', 'w', 'o', 'r', 'l', 'd', ' '
 
 const struct device *const lora_dev = DEVICE_DT_GET(DEFAULT_RADIO_NODE);
 struct lora_modem_config config;
-// const struct k_poll_signal 
+
+volatile bool boot = true;
+
+static struct k_thread transmit_thread_id;
+void transmit_thread(void *dummy1, void *dummy2, void *dummy3)
+{
+	ARG_UNUSED(dummy1);
+	ARG_UNUSED(dummy2);
+	ARG_UNUSED(dummy3);
+
+	int ret;
+	
+	while (1)
+	{
+		LOG_INF("Transmitting");
+		ret = lora_send(lora_dev, data, MAX_DATA_LEN);
+		if (ret < 0) {
+			LOG_ERR("LoRa send failed");
+			return 0;
+		}
+		k_thread_suspend(&transmit_thread_id);
+	}
+}
+K_THREAD_STACK_DEFINE(transmit_stack_area, STACKSIZE);
 
 void send_button_pressed(const struct device *dev, struct gpio_callback *cb, uint32_t pins)
 {
-	int ret;
 	// LOG_INF("Send button pressed at %" PRIu32 "\n", k_cycle_get_32());
-	ret = lora_send_async(lora_dev, data, MAX_DATA_LEN, NULL);	// No event signalling yet, thus NULL
-	if (ret < 0) {
-		LOG_ERR("LoRa send failed");
-		return 0;
-	}
-
 	gpio_pin_toggle_dt(&send_led);
 
-	// LOG_INF("Data sent %c!", data[MAX_DATA_LEN - 1]);
+	if(boot) {
+		boot = false;
+		k_thread_start(&transmit_thread_id);
+	}
+	else k_thread_resume(&transmit_thread_id);
 }
 
 int main(void)
 {
 	int ret;
 	if (!gpio_is_ready_dt(&send_button)) {
-		LOG_ERR("Error: button device %s is not ready",
-		       send_button.port->name);
+		LOG_ERR("Error: button device %s is not ready", send_button.port->name);
 		return 0;
 	}
 
 	ret = gpio_pin_configure_dt(&send_button, GPIO_INPUT);
 	if (ret != 0) {
-		LOG_ERR("Error %d: failed to configure %s pin %d",
-		       ret, send_button.port->name, send_button.pin);
+		LOG_ERR("Error %d: failed to configure %s pin %d", ret, send_button.port->name, send_button.pin);
 		return 0;
 	}
 
-	ret = gpio_pin_interrupt_configure_dt(&send_button,
-					      GPIO_INT_EDGE_TO_ACTIVE);
+	ret = gpio_pin_interrupt_configure_dt(&send_button, GPIO_INT_EDGE_TO_ACTIVE);
 	if (ret != 0) {
 		LOG_ERR("Error %d: failed to configure interrupt on %s pin %d",
 			ret, send_button.port->name, send_button.pin);
@@ -124,32 +145,24 @@ int main(void)
 	}
 
 	LOG_INF("Press button 0 to send a LoRa packet");
-	while (1) {
 
-		int val = gpio_pin_get_dt(&send_button);
+	k_tid_t transmit_tid = k_thread_create(&transmit_thread_id, transmit_stack_area,
+											K_THREAD_STACK_SIZEOF(transmit_stack_area),
+											transmit_thread, NULL, NULL, NULL,
+											PRIORITY, 0, K_FOREVER);
 
-		if (val >= 0) {
-			gpio_pin_set_dt(&send_led, val);
-		}
+	/* k_thread_name_set expects a k_tid_t (thread id) returned by
+	 * k_thread_create. Passing &transmit_thread (a function pointer)
+	 * caused an invalid memory access / MPU fault. Use the returned id.
+	 */
+	k_thread_name_set(transmit_tid, "transmit_thread");
+
+	while (1)
+	{
 		k_msleep(SLEEP_TIME_MS);
-		// ret = lora_send(lora_dev, data, MAX_DATA_LEN);
-		// ret = lora_send_async(lora_dev, data, MAX_DATA_LEN, NULL);	// No event signalling yet, thus NULL
-		// if (ret < 0) {
-		// 	LOG_ERR("LoRa send failed");
-		// 	return 0;
-		// }
-
-		// LOG_INF("Data sent %c!", data[MAX_DATA_LEN - 1]);
-
-		/* Send data at 1s interval */
-		// k_sleep(K_MSEC(10000));
-
-		/* Increment final character to differentiate packets */
-	// 	if (data[MAX_DATA_LEN - 1] == '9') {
-	// 		data[MAX_DATA_LEN - 1] = '0';
-	// 	} else {
-	// 		data[MAX_DATA_LEN - 1] += 1;
-	// 	}
 	}
+
 	return 0;
 }
+
+
