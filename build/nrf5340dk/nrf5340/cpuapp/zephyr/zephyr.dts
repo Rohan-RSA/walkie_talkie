@@ -43,7 +43,7 @@
 		mcuboot-led0 = &led0;       /* in external\zephyr\boards\nordic\nrf5340dk\nrf5340dk_common.dtsi:101 */
 		pwm-led0 = &pwm_led0;       /* in external\zephyr\boards\nordic\nrf5340dk\nrf5340_cpuapp_common.dtsi:53 */
 		watchdog0 = &wdt0;          /* in external\zephyr\boards\nordic\nrf5340dk\nrf5340_cpuapp_common.dtsi:54 */
-		lora0 = &lora0;             /* in walkie_talkie\boards\nrf5340dk.overlay:35 */
+		lora0 = &lora0;             /* in walkie_talkie\boards\nrf5340dk.overlay:34 */
 	};
 
 	/* node '/soc' defined in external\zephyr\dts\arm\armv8-m.dtsi:6 */
@@ -260,7 +260,7 @@
 				pinctrl-1 = < &uart0_sleep >;    /* in external\zephyr\boards\nordic\nrf5340dk\nrf5340_cpuapp_common.dtsi:107 */
 				pinctrl-names = "default",
 				                "sleep";         /* in external\zephyr\boards\nordic\nrf5340dk\nrf5340_cpuapp_common.dtsi:108 */
-				current-speed = < 0xe1000 >;     /* in walkie_talkie\boards\nrf5340dk.overlay:30 */
+				current-speed = < 0xe1000 >;     /* in walkie_talkie\boards\nrf5340dk.overlay:29 */
 			};
 
 			/* node '/soc/peripheral@50000000/i2c@9000' defined in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:149 */
@@ -314,26 +314,26 @@
 				easydma-maxcnt-bits = < 0x10 >; /* in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:197 */
 				rx-delay-supported;             /* in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:198 */
 				rx-delay = < 0x2 >;             /* in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:199 */
-				compatible = "nordic,nrf-spim"; /* in walkie_talkie\boards\nrf5340dk.overlay:4 */
-				status = "okay";                /* in walkie_talkie\boards\nrf5340dk.overlay:5 */
-				cs-gpios = < &gpio1 0x5 0x1 >;  /* in walkie_talkie\boards\nrf5340dk.overlay:6 */
-				pinctrl-0 = < &spi4_default >;  /* in walkie_talkie\boards\nrf5340dk.overlay:7 */
-				pinctrl-1 = < &spi4_sleep >;    /* in walkie_talkie\boards\nrf5340dk.overlay:8 */
+				compatible = "nordic,nrf-spim"; /* in walkie_talkie\boards\nrf5340dk.overlay:3 */
+				status = "okay";                /* in walkie_talkie\boards\nrf5340dk.overlay:4 */
+				cs-gpios = < &gpio1 0x5 0x1 >;  /* in walkie_talkie\boards\nrf5340dk.overlay:5 */
+				pinctrl-0 = < &spi4_default >;  /* in walkie_talkie\boards\nrf5340dk.overlay:6 */
+				pinctrl-1 = < &spi4_sleep >;    /* in walkie_talkie\boards\nrf5340dk.overlay:7 */
 				pinctrl-names = "default",
-				                "sleep";        /* in walkie_talkie\boards\nrf5340dk.overlay:9 */
+				                "sleep";        /* in walkie_talkie\boards\nrf5340dk.overlay:8 */
 
-				/* node '/soc/peripheral@50000000/spi@a000/sx1262@0' defined in walkie_talkie\boards\nrf5340dk.overlay:12 */
+				/* node '/soc/peripheral@50000000/spi@a000/sx1262@0' defined in walkie_talkie\boards\nrf5340dk.overlay:11 */
 				lora0: sx1262@0 {
-					compatible = "semtech,sx1262";         /* in walkie_talkie\boards\nrf5340dk.overlay:13 */
-					reg = < 0x0 >;                         /* in walkie_talkie\boards\nrf5340dk.overlay:14 */
-					reset-gpios = < &gpio1 0xa 0x1 >;      /* in walkie_talkie\boards\nrf5340dk.overlay:15 */
-					dio1-gpios = < &gpio1 0xc 0x20 >;      /* in walkie_talkie\boards\nrf5340dk.overlay:16 */
-					busy-gpios = < &gpio1 0xb 0x0 >;       /* in walkie_talkie\boards\nrf5340dk.overlay:17 */
-					spi-max-frequency = < 0x30d40 >;       /* in walkie_talkie\boards\nrf5340dk.overlay:21 */
-					dio2-tx-enable;                        /* in walkie_talkie\boards\nrf5340dk.overlay:22 */
-					dio3-tcxo-voltage = < 0x7 >;           /* in walkie_talkie\boards\nrf5340dk.overlay:23 */
-					tcxo-power-startup-delay-ms = < 0x5 >; /* in walkie_talkie\boards\nrf5340dk.overlay:24 */
-					status = "okay";                       /* in walkie_talkie\boards\nrf5340dk.overlay:25 */
+					compatible = "semtech,sx1262";         /* in walkie_talkie\boards\nrf5340dk.overlay:12 */
+					reg = < 0x0 >;                         /* in walkie_talkie\boards\nrf5340dk.overlay:13 */
+					reset-gpios = < &gpio1 0xa 0x1 >;      /* in walkie_talkie\boards\nrf5340dk.overlay:14 */
+					dio1-gpios = < &gpio1 0xc 0x20 >;      /* in walkie_talkie\boards\nrf5340dk.overlay:15 */
+					busy-gpios = < &gpio1 0xb 0x0 >;       /* in walkie_talkie\boards\nrf5340dk.overlay:16 */
+					spi-max-frequency = < 0x30d40 >;       /* in walkie_talkie\boards\nrf5340dk.overlay:20 */
+					dio2-tx-enable;                        /* in walkie_talkie\boards\nrf5340dk.overlay:21 */
+					dio3-tcxo-voltage = < 0x7 >;           /* in walkie_talkie\boards\nrf5340dk.overlay:22 */
+					tcxo-power-startup-delay-ms = < 0x5 >; /* in walkie_talkie\boards\nrf5340dk.overlay:23 */
+					status = "okay";                       /* in walkie_talkie\boards\nrf5340dk.overlay:24 */
 				};
 			};
 
@@ -840,7 +840,7 @@
 				port = < 0x1 >;                 /* in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:577 */
 				gpiote-instance = < &gpiote >;  /* in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:578 */
 				status = "okay";                /* in external\zephyr\boards\nordic\nrf5340dk\nrf5340_cpuapp_common.dtsi:92 */
-				phandle = < 0x8 >;              /* in walkie_talkie\boards\nrf5340dk.overlay:6 */
+				phandle = < 0x8 >;              /* in walkie_talkie\boards\nrf5340dk.overlay:5 */
 			};
 
 			/* node '/soc/peripheral@50000000/ieee802154' defined in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:581 */
@@ -1041,7 +1041,7 @@
 
 		/* node '/pin-controller/spi4_default' defined in external\zephyr\boards\nordic\nrf5340dk\nrf5340_cpuapp_common-pinctrl.dtsi:110 */
 		spi4_default: spi4_default {
-			phandle = < 0x9 >; /* in walkie_talkie\boards\nrf5340dk.overlay:7 */
+			phandle = < 0x9 >; /* in walkie_talkie\boards\nrf5340dk.overlay:6 */
 
 			/* node '/pin-controller/spi4_default/group1' defined in external\zephyr\boards\nordic\nrf5340dk\nrf5340_cpuapp_common-pinctrl.dtsi:111 */
 			group1 {
@@ -1053,7 +1053,7 @@
 
 		/* node '/pin-controller/spi4_sleep' defined in external\zephyr\boards\nordic\nrf5340dk\nrf5340_cpuapp_common-pinctrl.dtsi:118 */
 		spi4_sleep: spi4_sleep {
-			phandle = < 0xa >; /* in walkie_talkie\boards\nrf5340dk.overlay:8 */
+			phandle = < 0xa >; /* in walkie_talkie\boards\nrf5340dk.overlay:7 */
 
 			/* node '/pin-controller/spi4_sleep/group1' defined in external\zephyr\boards\nordic\nrf5340dk\nrf5340_cpuapp_common-pinctrl.dtsi:119 */
 			group1 {

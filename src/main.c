@@ -58,6 +58,22 @@ void transmit_thread(void *dummy1, void *dummy2, void *dummy3)
 	ARG_UNUSED(dummy3);
 
 	int ret;
+
+	config.frequency = 865100000;
+	config.bandwidth = BW_125_KHZ;
+	config.datarate = SF_8;
+	config.preamble_len = 8;
+	config.coding_rate = CR_4_5;
+	config.iq_inverted = false;
+	config.public_network = false;
+	config.tx_power = 14;
+	config.tx = true;
+
+	ret = lora_config(lora_dev, &config);
+	if (ret < 0) {
+		LOG_ERR("LoRa config failed");
+		return 0;
+	}
 	
 	while (1)
 	{
@@ -67,10 +83,36 @@ void transmit_thread(void *dummy1, void *dummy2, void *dummy3)
 			LOG_ERR("LoRa send failed");
 			return 0;
 		}
+
+		/* Switch back to receive mode */
+		config.frequency = 865100000;
+		config.bandwidth = BW_125_KHZ;
+		config.datarate = SF_8;
+		config.preamble_len = 8;
+		config.coding_rate = CR_4_5;
+		config.iq_inverted = false;
+		config.public_network = false;
+		config.tx_power = 14;
+		config.tx = false;
+		ret = lora_config(lora_dev, &config);
+		if (ret < 0) {
+			LOG_ERR("LoRa config failed");
+			return 0;
+		}
+
 		k_thread_suspend(&transmit_thread_id);
 	}
 }
 K_THREAD_STACK_DEFINE(transmit_stack_area, STACKSIZE);
+
+// static struct k_thread receive_thread_id;
+// void receive_thread(void *dummy1, void *dummy2, void *dummy3)
+// {
+// 	ARG_UNUSED(dummy1);
+// 	ARG_UNUSED(dummy2);
+// 	ARG_UNUSED(dummy3);
+// }
+// K_THREAD_STACK_DEFINE(receive_stack_area, STACKSIZE);
 
 void send_button_pressed(const struct device *dev, struct gpio_callback *cb, uint32_t pins)
 {
@@ -82,6 +124,26 @@ void send_button_pressed(const struct device *dev, struct gpio_callback *cb, uin
 		k_thread_start(&transmit_thread_id);
 	}
 	else k_thread_resume(&transmit_thread_id);
+}
+
+void lora_receive_cb(const struct device *dev, uint8_t *data, uint16_t size,
+		     int16_t rssi, int8_t snr, void *user_data)
+{
+	static int cnt;
+
+	// ARG_UNUSED(dev);
+	// ARG_UNUSED(size);
+	// ARG_UNUSED(user_data);
+	LOG_INF("Device %s", dev->name);
+	LOG_INF("LoRa RX RSSI: %d dBm, SNR: %d dB", rssi, snr);
+	// LOG_HEXDUMP_INF(data, size, "LoRa RX payload");
+	LOG_INF("Data: %s\r\nSize: %d\r\nrssi: %d\r\nsnr: %d", data, size, rssi, snr);
+
+	/* Stop receiving after 10 packets */
+	// if (++cnt == 10) {
+	// 	LOG_INF("Stopping packet receptions");
+	// 	lora_recv_async(dev, NULL, NULL);
+	// }
 }
 
 int main(void)
@@ -118,7 +180,7 @@ int main(void)
 	config.iq_inverted = false;
 	config.public_network = false;
 	config.tx_power = 14;
-	config.tx = true;
+	config.tx = false;
 
 	ret = lora_config(lora_dev, &config);
 	if (ret < 0) {
@@ -144,7 +206,7 @@ int main(void)
 		}
 	}
 
-	LOG_INF("Press button 0 to send a LoRa packet");
+	LOG_INF("Radio is in receive mode. Press button 1 to send a LoRa packet");
 
 	k_tid_t transmit_tid = k_thread_create(&transmit_thread_id, transmit_stack_area,
 											K_THREAD_STACK_SIZEOF(transmit_stack_area),
@@ -157,10 +219,18 @@ int main(void)
 	 */
 	k_thread_name_set(transmit_tid, "transmit_thread");
 
-	while (1)
-	{
-		k_msleep(SLEEP_TIME_MS);
-	}
+	// k_tid_t receive_tid = k_thread_create(&receive_thread_id, receive_stack_area,
+	// 										K_THREAD_STACK_SIZEOF(receive_stack_area),
+	// 										receive_thread, NULL, NULL, NULL,
+	// 										PRIORITY, 0, K_NO_WAIT);
+	// k_thread_name_set(receive_tid, "receive_thread");
+
+	lora_recv_async(lora_dev, lora_receive_cb, NULL);
+	k_sleep(K_FOREVER);
+	// while (1)
+	// {
+	// 	k_msleep(SLEEP_TIME_MS);
+	// }
 
 	return 0;
 }
