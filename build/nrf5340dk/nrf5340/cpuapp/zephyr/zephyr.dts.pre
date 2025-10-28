@@ -1446,7 +1446,6 @@ zephyr_udc0: &usbd {
 # 0 "<command-line>" 2
 # 1 "c:/Projects/Github/LoRa_Radio/walkie_talkie/boards/nrf5340dk.overlay" 1
 
-
 &spi4 {
  compatible = "nordic,nrf-spim";
  status = "okay";
