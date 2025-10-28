@@ -30,7 +30,7 @@ BUILD_ASSERT(DT_NODE_HAS_STATUS_OKAY(DEFAULT_RADIO_NODE),
 #error "Unsupported board: sw0 devicetree alias is not defined"
 #endif
 
-#define SLEEP_TIME_MS 100
+#define SLEEP_TIME_MS 10
 /* size of stack area used by each thread */
 #define STACKSIZE 4096
 /* scheduling priority used by each thread */
@@ -50,6 +50,28 @@ struct lora_modem_config config;
 
 volatile bool boot = true;
 
+K_SEM_DEFINE(tx_sem, 0, 1);
+
+void lora_receive_cb(const struct device *dev, uint8_t *data, uint16_t size,
+		     int16_t rssi, int8_t snr, void *user_data)
+{
+	static int cnt;
+
+	// ARG_UNUSED(dev);
+	// ARG_UNUSED(size);
+	// ARG_UNUSED(user_data);
+	LOG_INF("Device %s", dev->name);
+	// LOG_INF("LoRa RX RSSI: %d dBm, SNR: %d dB", rssi, snr);
+	// LOG_HEXDUMP_INF(data, size, "LoRa RX payload");
+	LOG_INF("Data: %s\r\nSize: %d\r\nrssi: %d dBm\r\nsnr: %d dB", data, size, rssi, snr);
+
+	/* Stop receiving after 10 packets */
+	// if (++cnt == 10) {
+	// 	LOG_INF("Stopping packet receptions");
+	// 	lora_recv_async(dev, NULL, NULL);
+	// }
+}
+
 static struct k_thread transmit_thread_id;
 void transmit_thread(void *dummy1, void *dummy2, void *dummy3)
 {
@@ -59,48 +81,46 @@ void transmit_thread(void *dummy1, void *dummy2, void *dummy3)
 
 	int ret;
 
-	config.frequency = 865100000;
-	config.bandwidth = BW_125_KHZ;
-	config.datarate = SF_8;
-	config.preamble_len = 8;
-	config.coding_rate = CR_4_5;
-	config.iq_inverted = false;
-	config.public_network = false;
-	config.tx_power = 14;
-	config.tx = true;
+	/* Thread waits for a semaphore given from the button callback
+	 * (safer than starting/resuming the thread directly from ISR).
+	 */
+	while (1) {
+		/* Wait until button gives semaphore */
+		k_sem_take(&tx_sem, K_FOREVER);
 
-	ret = lora_config(lora_dev, &config);
-	if (ret < 0) {
-		LOG_ERR("LoRa config failed");
-		return 0;
-	}
-	
-	while (1)
-	{
+		/* Stop receiver in order to change config */
+		ret = lora_recv_async(lora_dev, NULL, NULL);
+		if (ret < 0) {
+			LOG_ERR("lora_recv_async(stop) failed: %d", ret);
+			continue;
+		}
+
+		config.tx = true;
+		ret = lora_config(lora_dev, &config);
+		if (ret < 0) {
+			LOG_ERR("LoRa config (tx) failed: %d", ret);
+			lora_recv_async(lora_dev, lora_receive_cb, NULL);
+			continue;
+		}
+
 		LOG_INF("Transmitting");
 		ret = lora_send(lora_dev, data, MAX_DATA_LEN);
 		if (ret < 0) {
-			LOG_ERR("LoRa send failed");
-			return 0;
+			LOG_ERR("LoRa send failed: %d", ret);
 		}
 
 		/* Switch back to receive mode */
-		config.frequency = 865100000;
-		config.bandwidth = BW_125_KHZ;
-		config.datarate = SF_8;
-		config.preamble_len = 8;
-		config.coding_rate = CR_4_5;
-		config.iq_inverted = false;
-		config.public_network = false;
-		config.tx_power = 14;
 		config.tx = false;
 		ret = lora_config(lora_dev, &config);
 		if (ret < 0) {
-			LOG_ERR("LoRa config failed");
-			return 0;
+			LOG_ERR("LoRa config (rx) failed: %d", ret);
 		}
 
-		k_thread_suspend(&transmit_thread_id);
+		/* Enable receiver again after transmission is done */
+		ret = lora_recv_async(lora_dev, lora_receive_cb, NULL);
+		if (ret < 0) {
+			LOG_ERR("lora_recv_async(start) failed: %d", ret);
+		}
 	}
 }
 K_THREAD_STACK_DEFINE(transmit_stack_area, STACKSIZE);
@@ -119,31 +139,8 @@ void send_button_pressed(const struct device *dev, struct gpio_callback *cb, uin
 	// LOG_INF("Send button pressed at %" PRIu32 "\n", k_cycle_get_32());
 	gpio_pin_toggle_dt(&send_led);
 
-	if(boot) {
-		boot = false;
-		k_thread_start(&transmit_thread_id);
-	}
-	else k_thread_resume(&transmit_thread_id);
-}
-
-void lora_receive_cb(const struct device *dev, uint8_t *data, uint16_t size,
-		     int16_t rssi, int8_t snr, void *user_data)
-{
-	static int cnt;
-
-	// ARG_UNUSED(dev);
-	// ARG_UNUSED(size);
-	// ARG_UNUSED(user_data);
-	LOG_INF("Device %s", dev->name);
-	LOG_INF("LoRa RX RSSI: %d dBm, SNR: %d dB", rssi, snr);
-	// LOG_HEXDUMP_INF(data, size, "LoRa RX payload");
-	LOG_INF("Data: %s\r\nSize: %d\r\nrssi: %d\r\nsnr: %d", data, size, rssi, snr);
-
-	/* Stop receiving after 10 packets */
-	// if (++cnt == 10) {
-	// 	LOG_INF("Stopping packet receptions");
-	// 	lora_recv_async(dev, NULL, NULL);
-	// }
+	/* Signal transmit thread via semaphore. k_sem_give is ISR-safe. */
+	k_sem_give(&tx_sem);
 }
 
 int main(void)
@@ -211,7 +208,7 @@ int main(void)
 	k_tid_t transmit_tid = k_thread_create(&transmit_thread_id, transmit_stack_area,
 											K_THREAD_STACK_SIZEOF(transmit_stack_area),
 											transmit_thread, NULL, NULL, NULL,
-											PRIORITY, 0, K_FOREVER);
+											PRIORITY, 0, K_NO_WAIT);
 
 	/* k_thread_name_set expects a k_tid_t (thread id) returned by
 	 * k_thread_create. Passing &transmit_thread (a function pointer)
