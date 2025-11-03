@@ -28,12 +28,12 @@ Sample Output
 
 .. code-block:: console
 
-*** Booting Zephyr OS build v4.2.0 ***
-[00:00:00.329,681] <inf> main: LoRa modem configuring succeeded
-[00:00:00.329,772] <inf> main: Set up button at gpio@842500 pin 23
-[00:00:00.329,864] <inf> main: Set up LED at gpio@842500 pin 29
-[00:00:00.329,956] <inf> main: Radio is in receive mode. Press button 1 to send a LoRa packet
-[00:00:09.629,577] <inf> main: Transmitted bytes = 12
-0x43 0x68 0x65 0x76 0x79 0x20 0x4c 0x53 0x31 0x20 0x35 0x2e
-RECV 12 bytes: 0x43 0x68 0x65 0x76 0x79 0x20 0x4c 0x53 0x31 0x20 0x35 0x2e RSSI = -35dBm, SNR = 13dBm
+   :*** Booting Zephyr OS build v4.2.0 ***
+   :[00:00:00.329,681] <inf> main: LoRa modem configuring succeeded
+   :[00:00:00.329,772] <inf> main: Set up button at gpio@842500 pin 23
+   :[00:00:00.329,864] <inf> main: Set up LED at gpio@842500 pin 29
+   :[00:00:00.329,956] <inf> main: Radio is in receive mode. Press button 1 to send a LoRa packet
+   :[00:00:09.629,577] <inf> main: Transmitted bytes = 12
+   :0x43 0x68 0x65 0x76 0x79 0x20 0x4c 0x53 0x31 0x20 0x35 0x2e
+   :RECV 12 bytes: 0x43 0x68 0x65 0x76 0x79 0x20 0x4c 0x53 0x31 0x20 0x35 0x2e RSSI = -35dBm, SNR = 13dBm
 
