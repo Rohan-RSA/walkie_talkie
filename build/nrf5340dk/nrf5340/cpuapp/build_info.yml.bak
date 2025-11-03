@@ -1,54 +1,7 @@
-cmake:
-  application:
-    configuration-dir: 'C:/Projects/Github/LoRa_Radio/walkie_talkie'
-    source-dir: 'C:/Projects/Github/LoRa_Radio/walkie_talkie'
-  board:
-    name: 'nrf5340dk'
-    path:
-     - 'C:/Projects/Github/LoRa_Radio/external/zephyr/boards/nordic/nrf5340dk'
-    qualifiers: 'nrf5340/cpuapp'
-    revision: ''
-  devicetree:
-    bindings-dirs:
-     - 'C:/Projects/Github/LoRa_Radio/external/zephyr/dts/bindings'
-    extra-user-files:
-     - 'c:/Projects/Github/LoRa_Radio/walkie_talkie/boards/nrf5340dk.overlay'
-    files:
-     - 'C:/Projects/Github/LoRa_Radio/external/zephyr/boards/nordic/nrf5340dk/nrf5340dk_nrf5340_cpuapp.dts'
-     - 'c:/Projects/Github/LoRa_Radio/walkie_talkie/boards/nrf5340dk.overlay'
-    include-dirs:
-     - 'C:/Projects/Github/LoRa_Radio/external/zephyr/include'
-     - 'C:/Projects/Github/LoRa_Radio/external/zephyr/include/zephyr'
-     - 'C:/Projects/Github/LoRa_Radio/external/zephyr/dts/common'
-     - 'C:/Projects/Github/LoRa_Radio/external/zephyr/dts/vendor'
-     - 'C:/Projects/Github/LoRa_Radio/external/zephyr/dts/rx'
-     - 'C:/Projects/Github/LoRa_Radio/external/zephyr/dts/x86'
-     - 'C:/Projects/Github/LoRa_Radio/external/zephyr/dts/xtensa'
-     - 'C:/Projects/Github/LoRa_Radio/external/zephyr/dts/sparc'
-     - 'C:/Projects/Github/LoRa_Radio/external/zephyr/dts/riscv'
-     - 'C:/Projects/Github/LoRa_Radio/external/zephyr/dts/posix'
-     - 'C:/Projects/Github/LoRa_Radio/external/zephyr/dts/arm64'
-     - 'C:/Projects/Github/LoRa_Radio/external/zephyr/dts/arm'
-     - 'C:/Projects/Github/LoRa_Radio/external/zephyr/dts/arc'
-     - 'C:/Projects/Github/LoRa_Radio/external/zephyr/dts'
-  kconfig:
-    files:
-     - 'C:/Projects/Github/LoRa_Radio/external/zephyr/boards/nordic/nrf5340dk/nrf5340dk_nrf5340_cpuapp_defconfig'
-     - 'C:/Projects/Github/LoRa_Radio/walkie_talkie/prj.conf'
-     - 'C:/Projects/Github/LoRa_Radio/walkie_talkie/build/nrf5340dk/nrf5340/cpuapp/zephyr/misc/generated/extra_kconfig_options.conf'
-    user-files:
-     - 'C:/Projects/Github/LoRa_Radio/walkie_talkie/prj.conf'
-  toolchain:
-    name: 'zephyr'
-    path: 'C:/Users/rohan/.zephyr_ide/toolchains/zephyr-sdk-0.17.3'
-  vendor-specific:
-    nordic:
-      svdfile: 'C:/Projects/Github/LoRa_Radio/external/modules/hal/nordic/nrfx/mdk/nrf5340_application.svd'
-  zephyr:
-    version: '4.2.0'
-    zephyr-base: 'C:/Projects/Github/LoRa_Radio/external/zephyr'
-version: '0.1.0'
 west:
-  command: 'c:\Projects\Github\LoRa_Radio\.venv\Scripts\west build -b nrf5340dk/nrf5340/cpuapp c:\Projects\Github\LoRa_Radio\walkie_talkie -p --build-dir c:\Projects\Github\LoRa_Radio\walkie_talkie\build\nrf5340dk\nrf5340\cpuapp -- -DBOARD_ROOT=c:\Projects\Github\LoRa_Radio\external\zephyr -DCONFIG_NO_OPTIMIZATIONS=y -DEXTRA_DTC_OVERLAY_FILE=c:\Projects\Github\LoRa_Radio\walkie_talkie\boards\nrf5340dk.overlay;'
-  topdir: 'c:\Projects\Github\LoRa_Radio'
-  version: '1.5.0'
+  command: c:\Projects\Github\LoRa_Radio\.venv\Scripts\west build -b nrf5340dk/nrf5340/cpuapp
+    c:\Projects\Github\LoRa_Radio\walkie_talkie -p --build-dir c:\Projects\Github\LoRa_Radio\walkie_talkie\build\nrf5340dk\nrf5340\cpuapp
+    -- -DBOARD_ROOT=c:\Projects\Github\LoRa_Radio\external\zephyr -DCONFIG_NO_OPTIMIZATIONS=y
+    -DEXTRA_DTC_OVERLAY_FILE=c:\Projects\Github\LoRa_Radio\walkie_talkie\boards\nrf5340dk.overlay;
+  topdir: c:\Projects\Github\LoRa_Radio
+  version: 1.5.0
