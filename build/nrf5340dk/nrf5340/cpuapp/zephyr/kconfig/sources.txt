@@ -1,6 +1,5 @@
 C:\Projects\Github\LoRa_Radio\external\modules\hal\espressif\zephyr\Kconfig
 C:\Projects\Github\LoRa_Radio\external\modules\lib\picolibc\zephyr\Kconfig
-C:\Projects\Github\LoRa_Radio\external\zephyr\Kconfig
 C:\Projects\Github\LoRa_Radio\external\zephyr\Kconfig.constants
 C:\Projects\Github\LoRa_Radio\external\zephyr\Kconfig.zephyr
 C:\Projects\Github\LoRa_Radio\external\zephyr\arch\Kconfig
@@ -3790,6 +3789,7 @@ C:\Projects\Github\LoRa_Radio\external\zephyr\subsys\usb\host\Kconfig
 C:\Projects\Github\LoRa_Radio\external\zephyr\subsys\usb\host\Kconfig.usbip
 C:\Projects\Github\LoRa_Radio\external\zephyr\subsys\usb\usb_c\Kconfig
 C:\Projects\Github\LoRa_Radio\external\zephyr\subsys\zbus\Kconfig
+C:\Projects\Github\LoRa_Radio\walkie_talkie\Kconfig
 C:\Projects\Github\LoRa_Radio\walkie_talkie\build\nrf5340dk\nrf5340\cpuapp\Kconfig\Kconfig.dts
 C:\Projects\Github\LoRa_Radio\walkie_talkie\build\nrf5340dk\nrf5340\cpuapp\Kconfig\Kconfig.modules
 C:\Projects\Github\LoRa_Radio\walkie_talkie\build\nrf5340dk\nrf5340\cpuapp\Kconfig\Kconfig.shield

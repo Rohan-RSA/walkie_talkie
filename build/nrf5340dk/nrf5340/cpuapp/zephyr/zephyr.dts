@@ -43,7 +43,7 @@
 		mcuboot-led0 = &led0;       /* in external\zephyr\boards\nordic\nrf5340dk\nrf5340dk_common.dtsi:101 */
 		pwm-led0 = &pwm_led0;       /* in external\zephyr\boards\nordic\nrf5340dk\nrf5340_cpuapp_common.dtsi:53 */
 		watchdog0 = &wdt0;          /* in external\zephyr\boards\nordic\nrf5340dk\nrf5340_cpuapp_common.dtsi:54 */
-		lora0 = &lora0;             /* in walkie_talkie\boards\nrf5340dk.overlay:34 */
+		lora0 = &lora0;             /* in walkie_talkie\boards\nrf5340dk.overlay:3 */
 	};
 
 	/* node '/soc' defined in external\zephyr\dts\arm\armv8-m.dtsi:6 */
@@ -170,10 +170,11 @@
 
 			/* node '/soc/peripheral@50000000/clock@5000' defined in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:64 */
 			clock: clock@5000 {
-				compatible = "nordic,nrf-clock"; /* in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:65 */
-				reg = < 0x5000 0x1000 >;         /* in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:66 */
-				interrupts = < 0x5 0x1 >;        /* in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:67 */
-				status = "okay";                 /* in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:68 */
+				compatible = "nordic,nrf-clock";     /* in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:65 */
+				reg = < 0x5000 0x1000 >;             /* in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:66 */
+				interrupts = < 0x5 0x1 >;            /* in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:67 */
+				status = "okay";                     /* in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:68 */
+				hfclkaudio-frequency = < 0xac4400 >; /* in walkie_talkie\boards\nrf5340dk.overlay:47 */
 			};
 
 			/* node '/soc/peripheral@50000000/power@5000' defined in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:71 */
@@ -260,7 +261,7 @@
 				pinctrl-1 = < &uart0_sleep >;    /* in external\zephyr\boards\nordic\nrf5340dk\nrf5340_cpuapp_common.dtsi:107 */
 				pinctrl-names = "default",
 				                "sleep";         /* in external\zephyr\boards\nordic\nrf5340dk\nrf5340_cpuapp_common.dtsi:108 */
-				current-speed = < 0xe1000 >;     /* in walkie_talkie\boards\nrf5340dk.overlay:29 */
+				current-speed = < 0xe1000 >;     /* in walkie_talkie\boards\nrf5340dk.overlay:91 */
 			};
 
 			/* node '/soc/peripheral@50000000/i2c@9000' defined in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:149 */
@@ -314,26 +315,26 @@
 				easydma-maxcnt-bits = < 0x10 >; /* in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:197 */
 				rx-delay-supported;             /* in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:198 */
 				rx-delay = < 0x2 >;             /* in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:199 */
-				compatible = "nordic,nrf-spim"; /* in walkie_talkie\boards\nrf5340dk.overlay:3 */
-				status = "okay";                /* in walkie_talkie\boards\nrf5340dk.overlay:4 */
-				cs-gpios = < &gpio1 0x5 0x1 >;  /* in walkie_talkie\boards\nrf5340dk.overlay:5 */
-				pinctrl-0 = < &spi4_default >;  /* in walkie_talkie\boards\nrf5340dk.overlay:6 */
-				pinctrl-1 = < &spi4_sleep >;    /* in walkie_talkie\boards\nrf5340dk.overlay:7 */
+				compatible = "nordic,nrf-spim"; /* in walkie_talkie\boards\nrf5340dk.overlay:65 */
+				status = "okay";                /* in walkie_talkie\boards\nrf5340dk.overlay:66 */
+				cs-gpios = < &gpio1 0x5 0x1 >;  /* in walkie_talkie\boards\nrf5340dk.overlay:67 */
+				pinctrl-0 = < &spi4_default >;  /* in walkie_talkie\boards\nrf5340dk.overlay:68 */
+				pinctrl-1 = < &spi4_sleep >;    /* in walkie_talkie\boards\nrf5340dk.overlay:69 */
 				pinctrl-names = "default",
-				                "sleep";        /* in walkie_talkie\boards\nrf5340dk.overlay:8 */
+				                "sleep";        /* in walkie_talkie\boards\nrf5340dk.overlay:70 */
 
-				/* node '/soc/peripheral@50000000/spi@a000/sx1262@0' defined in walkie_talkie\boards\nrf5340dk.overlay:11 */
+				/* node '/soc/peripheral@50000000/spi@a000/sx1262@0' defined in walkie_talkie\boards\nrf5340dk.overlay:73 */
 				lora0: sx1262@0 {
-					compatible = "semtech,sx1262";         /* in walkie_talkie\boards\nrf5340dk.overlay:12 */
-					reg = < 0x0 >;                         /* in walkie_talkie\boards\nrf5340dk.overlay:13 */
-					reset-gpios = < &gpio1 0xa 0x1 >;      /* in walkie_talkie\boards\nrf5340dk.overlay:14 */
-					dio1-gpios = < &gpio1 0xc 0x20 >;      /* in walkie_talkie\boards\nrf5340dk.overlay:15 */
-					busy-gpios = < &gpio1 0xb 0x0 >;       /* in walkie_talkie\boards\nrf5340dk.overlay:16 */
-					spi-max-frequency = < 0x30d40 >;       /* in walkie_talkie\boards\nrf5340dk.overlay:20 */
-					dio2-tx-enable;                        /* in walkie_talkie\boards\nrf5340dk.overlay:21 */
-					dio3-tcxo-voltage = < 0x7 >;           /* in walkie_talkie\boards\nrf5340dk.overlay:22 */
-					tcxo-power-startup-delay-ms = < 0x5 >; /* in walkie_talkie\boards\nrf5340dk.overlay:23 */
-					status = "okay";                       /* in walkie_talkie\boards\nrf5340dk.overlay:24 */
+					compatible = "semtech,sx1262";         /* in walkie_talkie\boards\nrf5340dk.overlay:74 */
+					reg = < 0x0 >;                         /* in walkie_talkie\boards\nrf5340dk.overlay:75 */
+					reset-gpios = < &gpio1 0xa 0x1 >;      /* in walkie_talkie\boards\nrf5340dk.overlay:76 */
+					dio1-gpios = < &gpio1 0xc 0x20 >;      /* in walkie_talkie\boards\nrf5340dk.overlay:77 */
+					busy-gpios = < &gpio1 0xb 0x0 >;       /* in walkie_talkie\boards\nrf5340dk.overlay:78 */
+					spi-max-frequency = < 0x30d40 >;       /* in walkie_talkie\boards\nrf5340dk.overlay:82 */
+					dio2-tx-enable;                        /* in walkie_talkie\boards\nrf5340dk.overlay:83 */
+					dio3-tcxo-voltage = < 0x7 >;           /* in walkie_talkie\boards\nrf5340dk.overlay:84 */
+					tcxo-power-startup-delay-ms = < 0x5 >; /* in walkie_talkie\boards\nrf5340dk.overlay:85 */
+					status = "okay";                       /* in walkie_talkie\boards\nrf5340dk.overlay:86 */
 				};
 			};
 
@@ -409,7 +410,7 @@
 				#io-channel-cells = < 0x1 >;     /* in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:290 */
 				zephyr,pm-device-runtime-auto;   /* in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:291 */
 				status = "okay";                 /* in external\zephyr\boards\nordic\nrf5340dk\nrf5340_cpuapp_common.dtsi:76 */
-				phandle = < 0x15 >;              /* in external\zephyr\boards\nordic\nrf5340dk\nrf5340_cpuapp_common.dtsi:34 */
+				phandle = < 0x16 >;              /* in external\zephyr\boards\nordic\nrf5340dk\nrf5340_cpuapp_common.dtsi:34 */
 			};
 
 			/* node '/soc/peripheral@50000000/timer@f000' defined in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:294 */
@@ -432,7 +433,7 @@
 				max-bit-width = < 0x20 >;        /* in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:309 */
 				interrupts = < 0x10 0x1 >;       /* in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:310 */
 				prescaler = < 0x0 >;             /* in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:311 */
-				phandle = < 0x10 >;              /* in external\zephyr\dts\vendor\nordic\nrf_common.dtsi:41 */
+				phandle = < 0x11 >;              /* in external\zephyr\dts\vendor\nordic\nrf_common.dtsi:41 */
 			};
 
 			/* node '/soc/peripheral@50000000/timer@11000' defined in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:314 */
@@ -558,7 +559,7 @@
 				pinctrl-1 = < &pwm0_sleep >;   /* in external\zephyr\boards\nordic\nrf5340dk\nrf5340_cpuapp_common.dtsi:114 */
 				pinctrl-names = "default",
 				                "sleep";       /* in external\zephyr\boards\nordic\nrf5340dk\nrf5340_cpuapp_common.dtsi:115 */
-				phandle = < 0x14 >;            /* in external\zephyr\boards\nordic\nrf5340dk\nrf5340_cpuapp_common.dtsi:27 */
+				phandle = < 0x15 >;            /* in external\zephyr\boards\nordic\nrf5340dk\nrf5340_cpuapp_common.dtsi:27 */
 			};
 
 			/* node '/soc/peripheral@50000000/pwm@22000' defined in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:425 */
@@ -597,13 +598,16 @@
 			};
 
 			/* node '/soc/peripheral@50000000/i2s@28000' defined in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:456 */
-			i2s0: i2s@28000 {
-				compatible = "nordic,nrf-i2s"; /* in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:457 */
-				#address-cells = < 0x1 >;      /* in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:458 */
-				#size-cells = < 0x0 >;         /* in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:459 */
-				reg = < 0x28000 0x1000 >;      /* in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:460 */
-				interrupts = < 0x28 0x1 >;     /* in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:461 */
-				status = "disabled";           /* in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:462 */
+			i2s0: i2s_rx: i2s@28000 {
+				compatible = "nordic,nrf-i2s";     /* in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:457 */
+				#address-cells = < 0x1 >;          /* in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:458 */
+				#size-cells = < 0x0 >;             /* in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:459 */
+				reg = < 0x28000 0x1000 >;          /* in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:460 */
+				interrupts = < 0x28 0x1 >;         /* in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:461 */
+				status = "okay";                   /* in walkie_talkie\boards\nrf5340dk.overlay:51 */
+				pinctrl-0 = < &i2s0_default_alt >; /* in walkie_talkie\boards\nrf5340dk.overlay:52 */
+				pinctrl-names = "default";         /* in walkie_talkie\boards\nrf5340dk.overlay:53 */
+				clock-source = "ACLK";             /* in walkie_talkie\boards\nrf5340dk.overlay:54 */
 			};
 
 			/* node '/soc/peripheral@50000000/mbox@2a000' defined in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:465 */
@@ -616,7 +620,7 @@
 				interrupts = < 0x2a 0x1 >;          /* in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:470 */
 				#mbox-cells = < 0x1 >;              /* in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:471 */
 				status = "okay";                    /* in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:472 */
-				phandle = < 0x12 >;                 /* in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_ipc.dtsi:10 */
+				phandle = < 0x13 >;                 /* in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_ipc.dtsi:10 */
 			};
 
 			/* node '/soc/peripheral@50000000/qspi@2b000' defined in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:475 */
@@ -827,7 +831,7 @@
 				port = < 0x0 >;                 /* in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:566 */
 				gpiote-instance = < &gpiote >;  /* in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:567 */
 				status = "okay";                /* in external\zephyr\boards\nordic\nrf5340dk\nrf5340_cpuapp_common.dtsi:88 */
-				phandle = < 0x13 >;             /* in external\zephyr\boards\nordic\nrf5340dk\nrf5340dk_common.dtsi:12 */
+				phandle = < 0x14 >;             /* in external\zephyr\boards\nordic\nrf5340dk\nrf5340dk_common.dtsi:12 */
 			};
 
 			/* node '/soc/peripheral@50000000/gpio@842800' defined in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:570 */
@@ -840,7 +844,7 @@
 				port = < 0x1 >;                 /* in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:577 */
 				gpiote-instance = < &gpiote >;  /* in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:578 */
 				status = "okay";                /* in external\zephyr\boards\nordic\nrf5340dk\nrf5340_cpuapp_common.dtsi:92 */
-				phandle = < 0x8 >;              /* in walkie_talkie\boards\nrf5340dk.overlay:5 */
+				phandle = < 0x8 >;              /* in walkie_talkie\boards\nrf5340dk.overlay:67 */
 			};
 
 			/* node '/soc/peripheral@50000000/ieee802154' defined in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:581 */
@@ -865,7 +869,7 @@
 			interrupts = < 0xd 0x5 >;         /* in external\zephyr\dts\arm\nordic\nrf5340_cpuapp.dtsi:88 */
 			instance = < 0x0 >;               /* in external\zephyr\dts\arm\nordic\nrf5340_cpuapp.dtsi:90 */
 			status = "okay";                  /* in external\zephyr\boards\nordic\nrf5340dk\nrf5340_cpuapp_common.dtsi:84 */
-			phandle = < 0xf >;                /* in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:567 */
+			phandle = < 0x10 >;               /* in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_peripherals.dtsi:567 */
 		};
 
 		/* node '/soc/gpiote@4002f000' defined in external\zephyr\dts\arm\nordic\nrf5340_cpuapp.dtsi:94 */
@@ -971,7 +975,7 @@
 
 		/* node '/pin-controller/qspi_default' defined in external\zephyr\boards\nordic\nrf5340dk\nrf5340_cpuapp_common-pinctrl.dtsi:58 */
 		qspi_default: qspi_default {
-			phandle = < 0xd >; /* in external\zephyr\boards\nordic\nrf5340dk\nrf5340_cpuapp_common.dtsi:120 */
+			phandle = < 0xe >; /* in external\zephyr\boards\nordic\nrf5340dk\nrf5340_cpuapp_common.dtsi:120 */
 
 			/* node '/pin-controller/qspi_default/group1' defined in external\zephyr\boards\nordic\nrf5340dk\nrf5340_cpuapp_common-pinctrl.dtsi:59 */
 			group1 {
@@ -987,7 +991,7 @@
 
 		/* node '/pin-controller/qspi_sleep' defined in external\zephyr\boards\nordic\nrf5340dk\nrf5340_cpuapp_common-pinctrl.dtsi:70 */
 		qspi_sleep: qspi_sleep {
-			phandle = < 0xe >; /* in external\zephyr\boards\nordic\nrf5340dk\nrf5340_cpuapp_common.dtsi:121 */
+			phandle = < 0xf >; /* in external\zephyr\boards\nordic\nrf5340dk\nrf5340_cpuapp_common.dtsi:121 */
 
 			/* node '/pin-controller/qspi_sleep/group1' defined in external\zephyr\boards\nordic\nrf5340dk\nrf5340_cpuapp_common-pinctrl.dtsi:71 */
 			group1 {
@@ -1041,7 +1045,7 @@
 
 		/* node '/pin-controller/spi4_default' defined in external\zephyr\boards\nordic\nrf5340dk\nrf5340_cpuapp_common-pinctrl.dtsi:110 */
 		spi4_default: spi4_default {
-			phandle = < 0x9 >; /* in walkie_talkie\boards\nrf5340dk.overlay:6 */
+			phandle = < 0x9 >; /* in walkie_talkie\boards\nrf5340dk.overlay:68 */
 
 			/* node '/pin-controller/spi4_default/group1' defined in external\zephyr\boards\nordic\nrf5340dk\nrf5340_cpuapp_common-pinctrl.dtsi:111 */
 			group1 {
@@ -1053,7 +1057,7 @@
 
 		/* node '/pin-controller/spi4_sleep' defined in external\zephyr\boards\nordic\nrf5340dk\nrf5340_cpuapp_common-pinctrl.dtsi:118 */
 		spi4_sleep: spi4_sleep {
-			phandle = < 0xa >; /* in walkie_talkie\boards\nrf5340dk.overlay:7 */
+			phandle = < 0xa >; /* in walkie_talkie\boards\nrf5340dk.overlay:69 */
 
 			/* node '/pin-controller/spi4_sleep/group1' defined in external\zephyr\boards\nordic\nrf5340dk\nrf5340_cpuapp_common-pinctrl.dtsi:119 */
 			group1 {
@@ -1061,6 +1065,20 @@
 				        < 0x600002e >,
 				        < 0x500002d >; /* in external\zephyr\boards\nordic\nrf5340dk\nrf5340_cpuapp_common-pinctrl.dtsi:120 */
 				low-power-enable;      /* in external\zephyr\boards\nordic\nrf5340dk\nrf5340_cpuapp_common-pinctrl.dtsi:123 */
+			};
+		};
+
+		/* node '/pin-controller/i2s0_default_alt' defined in walkie_talkie\boards\nrf5340dk.overlay:23 */
+		i2s0_default_alt: i2s0_default_alt {
+			phandle = < 0xd >; /* in walkie_talkie\boards\nrf5340dk.overlay:52 */
+
+			/* node '/pin-controller/i2s0_default_alt/group1' defined in walkie_talkie\boards\nrf5340dk.overlay:24 */
+			group1 {
+				psels = < 0x1300000c >,
+				        < 0xd00000b >,
+				        < 0xf00002c >,
+				        < 0x1200000d >,
+				        < 0x1100002e >; /* in walkie_talkie\boards\nrf5340dk.overlay:25 */
 			};
 		};
 	};
@@ -1287,7 +1305,7 @@
 		/* node '/reserved-memory/memory@20070000' defined in external\zephyr\dts\vendor\nordic\nrf5340_shared_sram_partition.dtsi:30 */
 		sram0_shared: memory@20070000 {
 			reg = < 0x20070000 0x10000 >; /* in external\zephyr\dts\vendor\nordic\nrf5340_shared_sram_partition.dtsi:32 */
-			phandle = < 0x11 >;           /* in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_ipc.dtsi:9 */
+			phandle = < 0x12 >;           /* in external\zephyr\dts\arm\nordic\nrf5340_cpuapp_ipc.dtsi:9 */
 		};
 	};
 };

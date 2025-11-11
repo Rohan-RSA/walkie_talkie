@@ -187,6 +187,9 @@ C:/Projects/Github/LoRa_Radio/walkie_talkie/build/nrf5340dk/nrf5340/cpuapp/zephy
 C:/Projects/Github/LoRa_Radio/walkie_talkie/build/nrf5340dk/nrf5340/cpuapp/zephyr/drivers/gpio/CMakeFiles/drivers__gpio.dir
 C:/Projects/Github/LoRa_Radio/walkie_talkie/build/nrf5340dk/nrf5340/cpuapp/zephyr/drivers/gpio/CMakeFiles/edit_cache.dir
 C:/Projects/Github/LoRa_Radio/walkie_talkie/build/nrf5340dk/nrf5340/cpuapp/zephyr/drivers/gpio/CMakeFiles/rebuild_cache.dir
+C:/Projects/Github/LoRa_Radio/walkie_talkie/build/nrf5340dk/nrf5340/cpuapp/zephyr/drivers/i2s/CMakeFiles/drivers__i2s.dir
+C:/Projects/Github/LoRa_Radio/walkie_talkie/build/nrf5340dk/nrf5340/cpuapp/zephyr/drivers/i2s/CMakeFiles/edit_cache.dir
+C:/Projects/Github/LoRa_Radio/walkie_talkie/build/nrf5340dk/nrf5340/cpuapp/zephyr/drivers/i2s/CMakeFiles/rebuild_cache.dir
 C:/Projects/Github/LoRa_Radio/walkie_talkie/build/nrf5340dk/nrf5340/cpuapp/zephyr/drivers/lora/CMakeFiles/loramac-node.dir
 C:/Projects/Github/LoRa_Radio/walkie_talkie/build/nrf5340dk/nrf5340/cpuapp/zephyr/drivers/lora/CMakeFiles/edit_cache.dir
 C:/Projects/Github/LoRa_Radio/walkie_talkie/build/nrf5340dk/nrf5340/cpuapp/zephyr/drivers/lora/CMakeFiles/rebuild_cache.dir

@@ -1445,7 +1445,36 @@ zephyr_udc0: &usbd {
 };
 # 0 "<command-line>" 2
 # 1 "c:/Projects/Github/LoRa_Radio/walkie_talkie/boards/nrf5340dk.overlay" 1
+/ {
+     aliases {
+             lora0 = &lora0;
+     };
+};
 
+&pinctrl {
+# 23 "c:/Projects/Github/LoRa_Radio/walkie_talkie/boards/nrf5340dk.overlay"
+ i2s0_default_alt: i2s0_default_alt {
+  group1 {
+   psels = <((((((0) * 32U) + (12)) & 0x1FFU) << 0U) | ((19U & 0xFFU) << 24U))>,
+    <((((((0) * 32U) + (11)) & 0x1FFU) << 0U) | ((13U & 0xFFU) << 24U))>,
+    <((((((1) * 32U) + (12)) & 0x1FFU) << 0U) | ((15U & 0xFFU) << 24U))>,
+    <((((((0) * 32U) + (13)) & 0x1FFU) << 0U) | ((18U & 0xFFU) << 24U))>,
+    <((((((1) * 32U) + (14)) & 0x1FFU) << 0U) | ((17U & 0xFFU) << 24U))>;
+  };
+ };
+};
+# 46 "c:/Projects/Github/LoRa_Radio/walkie_talkie/boards/nrf5340dk.overlay"
+&clock {
+ hfclkaudio-frequency = <11289600>;
+};
+
+i2s_rx: &i2s0 {
+ status = "okay";
+ pinctrl-0 = <&i2s0_default_alt>;
+ pinctrl-names = "default";
+ clock-source = "ACLK";
+};
+# 64 "c:/Projects/Github/LoRa_Radio/walkie_talkie/boards/nrf5340dk.overlay"
 &spi4 {
  compatible = "nordic,nrf-spim";
  status = "okay";
@@ -1474,12 +1503,6 @@ zephyr_udc0: &usbd {
 
 &uart0 {
  current-speed = <921600>;
-};
-
-/ {
-     aliases {
-             lora0 = &lora0;
-     };
 };
 # 0 "<command-line>" 2
 # 1 "C:/Projects/Github/LoRa_Radio/external/zephyr/misc/empty_file.c"
