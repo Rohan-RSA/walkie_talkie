@@ -7,3 +7,5 @@ project(walkie_talkie)
 
 FILE(GLOB app_sources src/*.c)
 target_sources(app PRIVATE ${app_sources})
+
+include_directories(src)
