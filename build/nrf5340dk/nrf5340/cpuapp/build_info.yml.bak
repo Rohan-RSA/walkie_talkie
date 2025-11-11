@@ -1,7 +1,0 @@
-west:
-  command: c:\Projects\Github\LoRa_Radio\.venv\Scripts\west build -b nrf5340dk/nrf5340/cpuapp
-    c:\Projects\Github\LoRa_Radio\walkie_talkie -p --build-dir c:\Projects\Github\LoRa_Radio\walkie_talkie\build\nrf5340dk\nrf5340\cpuapp
-    -- -DBOARD_ROOT=c:\Projects\Github\LoRa_Radio\external\zephyr -DCONFIG_NO_OPTIMIZATIONS=y
-    -DEXTRA_DTC_OVERLAY_FILE=c:\Projects\Github\LoRa_Radio\walkie_talkie\boards\nrf5340dk.overlay;
-  topdir: c:\Projects\Github\LoRa_Radio
-  version: 1.5.0
