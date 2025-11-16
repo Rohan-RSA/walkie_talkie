@@ -16,11 +16,7 @@
 #define INITIAL_BLOCKS      2
 #define TIMEOUT             1000
 
-// #define SW1_NODE        	DT_ALIAS(sw1)
-
 #define BLOCK_SIZE  (BYTES_PER_SAMPLE * SAMPLES_PER_BLOCK)
 #define BLOCK_COUNT (INITIAL_BLOCKS + 4)
-
-K_MEM_SLAB_DEFINE_STATIC(mem_slab, BLOCK_SIZE, BLOCK_COUNT, 4);
 
 #endif // AUDIO_SERVICE_H

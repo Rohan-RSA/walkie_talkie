@@ -7,10 +7,21 @@
 
 #include "audio_service.h"
 
+K_MEM_SLAB_DEFINE_STATIC(mem_slab, BLOCK_SIZE, BLOCK_COUNT, 4);
 
+static K_SEM_DEFINE(toggle_transfer, 1, 1);
 
 LOG_MODULE_REGISTER(audio_module);
 
-// static struct gpio_dt_spec record_button = GPIO_DT_SPEC_GET(SW1_NODE, gpios);
+void audio_service_init()
+{
+    #if DT_NODE_HAS_STATUS(DT_NODELABEL(i2s0), okay)
+        const struct device *const i2s_dev_rx = DEVICE_DT_GET(I2S_RX_NODE);
 
+    #endif
+}
 
+void audio_sense_thread(void *arg1, void *arg2, void *arg3)
+{
+
+}

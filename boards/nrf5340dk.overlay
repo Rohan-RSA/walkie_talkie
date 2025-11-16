@@ -5,20 +5,6 @@
 };
 
 &pinctrl {
-	// i2c0_default_alt: i2c0_default_alt {
-	// 	group1 {
-	// 		psels = <NRF_PSEL(TWIM_SDA, 0, 25)>,
-	// 			<NRF_PSEL(TWIM_SCL, 0, 26)>;
-	// 	};
-	// };
-
-	// i2c0_sleep_alt: i2c0_sleep_alt {
-	// 	group1 {
-	// 		psels = <NRF_PSEL(TWIM_SDA, 0, 25)>,
-	// 			<NRF_PSEL(TWIM_SCL, 0, 26)>;
-	// 		low-power-enable;
-	// 	};
-	// };
 
 	i2s0_default_alt: i2s0_default_alt {
 		group1 {
@@ -31,18 +17,6 @@
 	};
 };
 
-// &i2c1 {
-// 	status = "okay";
-// 	pinctrl-0 = <&i2c0_default_alt>;
-// 	pinctrl-1 = <&i2c0_sleep_alt>;
-// 	pinctrl-names = "default", "sleep";
-
-// 	wm8731: wm8731@1a {
-// 		compatible = "wolfson,wm8731";
-// 		reg = <0x1a>;
-// 	};
-// };
-
 &clock {
 	hfclkaudio-frequency = <11289600>;
 };
@@ -52,14 +26,15 @@ i2s_rx: &i2s0 {
 	pinctrl-0 = <&i2s0_default_alt>;
 	pinctrl-names = "default";
 	clock-source = "ACLK";
+
 };
 
-// i2s_tx: &i2s0 {
-// 	status = "okay";
-// 	pinctrl-0 = <&i2s0_default_alt>;
-// 	pinctrl-names = "default";
-// 	clock-source = "ACLK";
-// };
+i2s_tx: &i2s0 {
+	status = "disabled";
+	pinctrl-0 = <&i2s0_default_alt>;
+	pinctrl-names = "default";
+	clock-source = "ACLK";
+};
 
 &spi4 {
 	compatible = "nordic,nrf-spim";
