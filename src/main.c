@@ -44,13 +44,13 @@ char data[MAX_DATA_LEN] = {"Chevy LS1 5.7L V8 engine"};
 volatile bool config_result = false;
 
 // K_SEM_DEFINE(tx_sem, 0, 1);
-K_SEM_DEFINE(record_sem, 0 , 1);
+// K_SEM_DEFINE(record_sem, 0 , 1);
 
 K_THREAD_DEFINE(audio_tid, THREAD_STACK_SIZE, audio_sense_thread, NULL, NULL, NULL, 4, 0, 0);
 
 K_WORK_DEFINE(init_gpio, init_gpio_handler);
 
-LOG_MODULE_REGISTER(main);
+LOG_MODULE_REGISTER(main, CONFIG_MAIN_LOG_LEVEL);
 
 void lora_receive_cb(const struct device *dev, uint8_t *data, uint16_t size,
 		     int16_t rssi, int8_t snr, void *user_data)
@@ -62,7 +62,6 @@ void lora_receive_cb(const struct device *dev, uint8_t *data, uint16_t size,
 	// 		printk("0x%02x ",data[i]);
 	// 		printk("RSSI = %ddBm, SNR = %ddBm\n", rssi, snr);
 	// } 
-
 	printk("\r\nDevice: %s \r\nData: %s\r\nSize: %d\r\nMax bytes: %d\r\nrssi: %d dBm\r\nsnr: %d dB", dev->name, data, strlen(data), size, rssi, snr);
 }
 
@@ -98,7 +97,7 @@ int lora_configure(const struct device *dev, bool transmit)
 
 // void record_button_pressed(const struct device *dev, struct gpio_callback *cb, uint32_t pins)
 // {
-// 	LOG_INF("record button pressed");
+// 	LOG_DBG("record button pressed");
 // 	/* This will start the recording service */
 // 	k_sem_give(&record_button);
 // }
@@ -149,18 +148,18 @@ int main(void)
 	}
 
 	if (lora_configure(lora_dev, RECEIVE)) {
-		LOG_INF("LoRa modem configuring succeeded");
+		LOG_DBG("LoRa modem configuring succeeded");
 	} else {
 		LOG_ERR("Falied configuring LoRa modem");
 	}
 
 	// gpio_init_callback(&send_button_cb_data, send_button_pressed, BIT(send_button.pin));
 	// gpio_add_callback(send_button.port, &send_button_cb_data);
-	// LOG_INF("Set up button at %s pin %d", send_button.port->name, send_button.pin);
+	// LOG_DBG("Set up button at %s pin %d", send_button.port->name, send_button.pin);
 
 	// gpio_init_callback(&record_button_cb_data, record_button_pressed, BIT(record_button.pin));
 	// gpio_add_callback(record_button.port, &record_button_cb_data);
-	// LOG_INF("Set up button at %s pin %d", record_button.port->name, record_button.pin);
+	// LOG_DBG("Set up button at %s pin %d", record_button.port->name, record_button.pin);
 
 	// if (send_led.port && !gpio_is_ready_dt(&send_led)) {
 	// 	LOG_ERR("Error %d: LED device %s is not ready; ignoring it", ret, send_led.port->name);
@@ -172,13 +171,13 @@ int main(void)
 	// 		LOG_ERR("Error %d: failed to configure LED device %s pin %d", ret, send_led.port->name, send_led.pin);
 	// 		send_led.port = NULL;
 	// 	} else {
-	// 		LOG_INF("Set up LED at %s pin %d", send_led.port->name, send_led.pin);
+	// 		LOG_DBG("Set up LED at %s pin %d", send_led.port->name, send_led.pin);
 	// 	}
 	// }
 
 	k_work_submit(&init_gpio);
 
-	LOG_INF("Radio is in receive mode. Press button 1 to send a LoRa packet");
+	LOG_DBG("Radio is in receive mode. Press button 1 to send a LoRa packet");
 
 	/* Start LoRa radion listening */
 	ret = lora_recv_async(lora_dev, lora_receive_cb, NULL);
@@ -213,7 +212,7 @@ int main(void)
 		else {
 			// bytes = sizeof(data);
 			bytes = strlen(data);
-			LOG_INF("Transmitted bytes = %d", bytes);
+			LOG_DBG("Transmitted bytes = %d", bytes);
 			// for (uint16_t i = 0; i < bytes; i++)
 			// {
 			// 	printk("0x%02x ", data[i]);
