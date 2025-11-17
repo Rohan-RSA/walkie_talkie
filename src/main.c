@@ -19,32 +19,17 @@
 #include "app_common.h"
 #include "init_gpio.h"
 
-// #define SW0_NODE	DT_ALIAS(sw0)
-// #define SW1_NODE    DT_ALIAS(sw1)
-
 #define DEFAULT_RADIO_NODE DT_ALIAS(lora0)
 BUILD_ASSERT(DT_NODE_HAS_STATUS_OKAY(DEFAULT_RADIO_NODE),
 			"No default LoRa radio specified in DT");
 
 #define LOG_LEVEL CONFIG_LOG_DEFAULT_LEVEL
 #define MAX_DATA_LEN 128
-// #define TRANSMIT	1
-// #define RECEIVE 	0
-
-// static struct gpio_callback send_button_cb_data;
-// static struct gpio_callback record_button_cb_data;
-
-// static const struct gpio_dt_spec send_button = GPIO_DT_SPEC_GET_OR(SW0_NODE, gpios, {0});
-// static const struct gpio_dt_spec record_button = GPIO_DT_SPEC_GET(SW1_NODE, gpios);
-// static struct gpio_dt_spec send_led = GPIO_DT_SPEC_GET_OR(DT_ALIAS(led1), gpios, {0});
 
 const struct device *const lora_dev = DEVICE_DT_GET(DEFAULT_RADIO_NODE);
 
 char data[MAX_DATA_LEN] = {"Chevy LS1 5.7L V8 engine"};
 volatile bool config_result = false;
-
-// K_SEM_DEFINE(tx_sem, 0, 1);
-// K_SEM_DEFINE(record_sem, 0 , 1);
 
 K_THREAD_DEFINE(audio_tid, THREAD_STACK_SIZE, audio_sense_thread, NULL, NULL, NULL, 4, 0, 0);
 
@@ -88,102 +73,37 @@ int lora_configure(const struct device *dev, bool transmit)
 	return(true);
 }
 
-// void send_button_pressed(const struct device *dev, struct gpio_callback *cb, uint32_t pins)
-// {
-// 	gpio_pin_toggle_dt(&send_led);
-// 	/* Signal transmit. k_sem_give is ISR-safe. */
-// 	k_sem_give(&tx_sem);
-// }
-
-// void record_button_pressed(const struct device *dev, struct gpio_callback *cb, uint32_t pins)
-// {
-// 	LOG_DBG("record button pressed");
-// 	/* This will start the recording service */
-// 	k_sem_give(&record_button);
-// }
-
 int main(void)
 {
 	int ret, bytes;
+	bool init;
 
-	// if (!gpio_is_ready_dt(&send_button)) {
-	// 	LOG_ERR("Error: send button port is not ready");
-	// 	return 0;
-	// }
-
-	// ret = gpio_pin_configure_dt(&send_button, GPIO_INPUT);
-	// if (ret != 0) {
-	// 	LOG_ERR("Error %d: failed to configure %s pin %d", ret, send_button.port->name, send_button.pin);
-	// 	return 0;
-	// }
-
-	// ret = gpio_pin_interrupt_configure_dt(&send_button, GPIO_INT_EDGE_TO_ACTIVE);
-	// if (ret != 0) {
-	// 	LOG_ERR("Error %d: failed to configure interrupt on %s pin %d",
-	// 		ret, send_button.port->name, send_button.pin);
-	// 	return 0;
-	// }
-	
-	// if (!gpio_is_ready_dt(&record_button)) {
-	// 	LOG_ERR("Error: button device %s is not ready", record_button.port);
-	// 	return 0;
-	// }
-
-	// ret = gpio_pin_configure_dt(&record_button, GPIO_INPUT);
-	// if (ret != 0) {
-	// 	LOG_ERR("Error %d: failed to configure %s pin %d", ret, record_button.port->name, record_button.pin);
-	// 	return 0;
-	// }
-
-	// ret = gpio_pin_interrupt_configure_dt(&record_button, GPIO_INT_EDGE_TO_ACTIVE);
-	// if (ret != 0) {
-	// 	LOG_ERR("Error %d: failed to configure interrupt on %s pin %d",
-	// 		ret, record_button.port->name, record_button.pin);
-	// 	return 0;
-	// }
+	k_work_submit(&init_gpio);
 
 	if (!device_is_ready(lora_dev)) {
 		LOG_ERR("%s Device not ready", lora_dev->name);
 		return 0;
 	}
-
 	if (lora_configure(lora_dev, RECEIVE)) {
 		LOG_DBG("LoRa modem configuring succeeded");
 	} else {
 		LOG_ERR("Falied configuring LoRa modem");
 	}
 
-	// gpio_init_callback(&send_button_cb_data, send_button_pressed, BIT(send_button.pin));
-	// gpio_add_callback(send_button.port, &send_button_cb_data);
-	// LOG_DBG("Set up button at %s pin %d", send_button.port->name, send_button.pin);
+	init = audio_service_init();
+	if (!init) {
+		LOG_ERR("Could not initialize I2S device: %d", EIO);
+	}
+	else LOG_DBG("I2S device initialized");
 
-	// gpio_init_callback(&record_button_cb_data, record_button_pressed, BIT(record_button.pin));
-	// gpio_add_callback(record_button.port, &record_button_cb_data);
-	// LOG_DBG("Set up button at %s pin %d", record_button.port->name, record_button.pin);
+	
 
-	// if (send_led.port && !gpio_is_ready_dt(&send_led)) {
-	// 	LOG_ERR("Error %d: LED device %s is not ready; ignoring it", ret, send_led.port->name);
-	// 	send_led.port = NULL;
-	// }
-	// if (send_led.port) {
-	// 	ret = gpio_pin_configure_dt(&send_led, GPIO_OUTPUT);
-	// 	if (ret != 0) {
-	// 		LOG_ERR("Error %d: failed to configure LED device %s pin %d", ret, send_led.port->name, send_led.pin);
-	// 		send_led.port = NULL;
-	// 	} else {
-	// 		LOG_DBG("Set up LED at %s pin %d", send_led.port->name, send_led.pin);
-	// 	}
-	// }
-
-	k_work_submit(&init_gpio);
-
-	LOG_DBG("Radio is in receive mode. Press button 1 to send a LoRa packet");
-
-	/* Start LoRa radion listening */
+	/* Start LoRa radio listening */
 	ret = lora_recv_async(lora_dev, lora_receive_cb, NULL);
 	if (ret < 0) {
 		LOG_ERR("LoRa recv_async failed with error code: %d", ret);
 	}
+	LOG_DBG("Radio is in receive mode. Press button 1 to send a LoRa packet");
 	
 	while (1)
 	{

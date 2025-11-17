@@ -1,9 +1,6 @@
 #ifndef AUDIO_SERVICE_H
 #define AUDIO_SERVICE_H
 
-#include <zephyr/device.h>
-#include <zephyr/drivers/i2s.h>
-
 #define I2S_RX_NODE  DT_NODELABEL(i2s_rx)
 // #define I2S_TX_NODE  DT_NODELABEL(i2s_tx)
 
@@ -18,5 +15,7 @@
 
 #define BLOCK_SIZE  (BYTES_PER_SAMPLE * SAMPLES_PER_BLOCK)
 #define BLOCK_COUNT (INITIAL_BLOCKS + 4)
+
+bool audio_service_init(void);
 
 #endif // AUDIO_SERVICE_H

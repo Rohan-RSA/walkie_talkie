@@ -9,7 +9,7 @@
 #define SW1_NODE    DT_ALIAS(sw1)
 
 K_SEM_DEFINE(tx_sem, 0, 1);
-K_SEM_DEFINE(record_sem, 0, 1)
+K_SEM_DEFINE(record_sem, 0, 1);
 
 static const struct gpio_dt_spec send_button = GPIO_DT_SPEC_GET_OR(SW0_NODE, gpios, {0});
 static struct gpio_dt_spec record_button = GPIO_DT_SPEC_GET(SW1_NODE, gpios);
@@ -22,9 +22,20 @@ LOG_MODULE_REGISTER(init_gpio, CONFIG_INIT_GPIO_LOG_LEVEL);
 
 void record_button_pressed(const struct device *dev, struct gpio_callback *cb, uint32_t pins)
 {
-	LOG_DBG("record button pressed");
-	/* This will triger the recording service */
-	k_sem_give(&record_sem);
+	int val = gpio_pin_get_dt(&record_button);
+	if (val < 0) {
+		LOG_ERR("Error reading record button: %d", val);
+		return;
+	}
+
+	if (val == 1) {
+		printk("record button pressed (active)\r\n");
+		/* This will trigger the recording service */
+		k_sem_give(&record_sem);
+	} else {
+		printk("record button released (inactive)\r\n");
+		/* Handle release if needed (stop recording, debounce, etc.) */
+	}
 }
 
 void send_button_pressed(const struct device *dev, struct gpio_callback *cb, uint32_t pins)
@@ -36,9 +47,7 @@ void send_button_pressed(const struct device *dev, struct gpio_callback *cb, uin
 
 void init_gpio_handler(struct k_work *work)
 {
-    printk("init_gpio.c\r\n");
-
-    	int ret, bytes;
+    int ret;
 
 	if (!gpio_is_ready_dt(&send_button)) {
 		LOG_ERR("Error: send button port is not ready");
@@ -69,7 +78,11 @@ void init_gpio_handler(struct k_work *work)
 		return 0;
 	}
 
-	ret = gpio_pin_interrupt_configure_dt(&record_button, GPIO_INT_EDGE_TO_ACTIVE);
+	/* Configure interrupt on both edges and distinguish in the callback by
+	 * reading the pin state. Zephyr does not provide per-callback edge
+	 * filtering, so use GPIO_INT_EDGE_BOTH and branch on gpio_pin_get_dt().
+	 */
+	ret = gpio_pin_interrupt_configure_dt(&record_button, GPIO_INT_EDGE_BOTH);
 	if (ret != 0) {
 		LOG_ERR("Error %d: failed to configure interrupt on %s pin %d",
 			ret, record_button.port->name, record_button.pin);
